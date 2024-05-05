@@ -1,0 +1,5 @@
+numpy==1.26.3
+Pillow==10.2.0
+PyYAML==6.0.1
+fastapi
+pydantic
