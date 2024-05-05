@@ -3,6 +3,7 @@
 Please see [kohonen.ipynb](kohonen.ipynb)
 
 how to build the server: 
+
 docker build -t som_app .
 
 docker run --rm --name som_server -p 8080:8080 som_app
