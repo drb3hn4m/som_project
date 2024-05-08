@@ -1,7 +1,21 @@
-# Kohonen Challenge
+# Deploying Kohonen Self Organizing Map (SOM)
+
+The Kohonen Self Organizing Map (SOM) provides a data visualization technique which helps to understand high dimensional data by reducing the dimensions of data to a map. SOM also represents clustering concept by grouping similar data together.
+
+Unlike other learning technique in neural networks, training a SOM requires no target vector. A SOM learns to classify the training data without any external supervision.
+
+![Network](./assets/kohonen1.gif)
+
+### Structure
+A network has a width and a height that descibes the grid of nodes.  For example, the grid may be 4x4, and so there would be 16 nodes.
+
+Each node has a weight for each value in the input vector.  A weight is simply a float value that the node multiplies the input value by to determine how influential it is (see below)
+
+Each node has a set of weights that match the size of the input vector.  For example, if the input vector has 10 elements, each node would have 10 weights.
+
 
 ### Notebook
-The kohonen notebook includes the implementation by calling the classes from the modules dir.
+The kohonen notebook includes the details of the SOM algorithm along with the implementation by calling the classes from the modules dir.
 
 ### python main function
 you can run the training via the main app along the required arguments:
