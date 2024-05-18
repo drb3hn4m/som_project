@@ -83,10 +83,10 @@ curl -X 'POST'  ....
 ```
 
  or alternatively you can attach to the container from vscode container extension (if enabled)
-------------------
-curl -X 'POST'   'http://127.0.0.1:36725/trainsom'   -H 'accept: application/json'   -H 'Content-Type: multipart/form-data'   -F 'input_json=@sample_data/colors_10.json;type=application/json'   -F 'config=@configs/config_40.yml;type=application/x-yaml'   -F 'format=png' --output W40.png
 
-### Deploying with kubenetes locally with minikube 
+------------------
+
+### Deploying locally by kubenetes with minikube 
 note that load balancer is available only on cloud so you need to create a nodeport service. Secondly the workaround to access the node (ip) is through mikikube tunnel service:
 cd to the project dir, then:
 ```
@@ -101,3 +101,36 @@ it creates a tunnel then then use the printed IP and port to access and curl to 
 ```
 curl -X 'POST'   'http://127.0.0.1:?????/trainsom'   -H 'accept: application/json'   -H 'Content-Type: multipart/form-data'   -F 'input_json=@sample_data/colors_10.json;type=application/json'   -F 'config=@configs/config_40.yml;type=application/x-yaml'   -F 'format=png' --output W40.png
 ```
+---------------------
+### Deploying on GCP by kubernetes
+first build the image and store it on Artifact Registry:
+```
+gcloud builds submit --config=cloudbuild.yaml   --substitutions=_LOCATION="us-central1",_REPOSITORY="somapp",_IMAGE="somserver" .
+```
+setup kubernetes cluster:
+```
+gcloud config set compute/zone us-central1-a
+PROJECT_ID=$(gcloud config get-value project)
+CLUSTER_NAME=som-cluster
+gcloud beta container clusters create $CLUSTER_NAME   --cluster-version=latest   --machine-type=e2-standard-4   --enable-autoscaling   --min-nodes=1   --max-nodes=3   --num-nodes=1 
+gcloud container clusters get-credentials $CLUSTER_NAME 
+````
+apply the k8s manifests:
+```
+kubectl apply -f som-k8s-gcp/configmap.yaml 
+kubectl apply -f som-k8s-gcp/deployment.yaml 
+kubectl apply -f som-k8s-gcp/service.yaml 
+kubectl get svc
+```
+use the printed external IP to curl to the endpoint:
+```
+curl -X 'POST'   'http://35.232.199.151:8080/trainsom'   -H 'accept: application/json'   -H 'Content-Type: multipart/form-data'   -F 'input_json=@sample_data/colors_10.json;type=application/json'   -F 'config=@configs/config_40.yml;type=application/x-yaml'   -F 'format=png' --output W40.png
+```
+
+to login into the github and configure it in gcp shell:
+
+```
+gh auth login
+git config --global user.email "????@gmail.com"
+git config --global user.name "???"
+  ```
