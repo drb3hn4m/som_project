@@ -83,3 +83,21 @@ curl -X 'POST'  ....
 ```
 
  or alternatively you can attach to the container from vscode container extension (if enabled)
+------------------
+curl -X 'POST'   'http://127.0.0.1:36725/trainsom'   -H 'accept: application/json'   -H 'Content-Type: multipart/form-data'   -F 'input_json=@sample_data/colors_10.json;type=application/json'   -F 'config=@configs/config_40.yml;type=application/x-yaml'   -F 'format=png' --output W40.png
+
+### Deploying with kubenetes locally with minikube 
+note that load balancer is available only on cloud so you need to create a nodeport service. Secondly the workaround to access the node (ip) is through mikikube tunnel service:
+cd to the project dir, then:
+```
+kubectl apply -f som-server-local/configmap.yaml 
+kubectl apply -f som-server-local/deployment.yaml
+kubectl get pods
+kubectl apply -f som-server-local/np_service.yaml
+kubectl get service
+minikube service som-trainer-np-service --url
+```
+it creates a tunnel then then use the printed IP and port to access and curl to the server. so you need to go the the root dir of repo and curl to the server given the minikube service IP an port:
+```
+curl -X 'POST'   'http://127.0.0.1:?????/trainsom'   -H 'accept: application/json'   -H 'Content-Type: multipart/form-data'   -F 'input_json=@sample_data/colors_10.json;type=application/json'   -F 'config=@configs/config_40.yml;type=application/x-yaml'   -F 'format=png' --output W40.png
+```

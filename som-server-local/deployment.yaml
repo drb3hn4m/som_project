@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: som-trainer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: som-trainer
+  template:
+    metadata:
+      labels:
+        app: som-trainer
+    spec:
+      containers:
+      - name: som-server
+        image: beh83m/som_app
+        resources:
+          requests:
+            memory: 2Gi
+            cpu: "3"
+        envFrom:
+        - configMapRef:
+            name: som-server-configs
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        - name: grpc
+          containerPort: 8081
+          protocol: TCP
