@@ -126,6 +126,11 @@ use the printed external IP to curl to the endpoint:
 ```
 curl -X 'POST'   'http://35.232.199.151:8080/trainsom'   -H 'accept: application/json'   -H 'Content-Type: multipart/form-data'   -F 'input_json=@sample_data/colors_10.json;type=application/json'   -F 'config=@configs/config_40.yml;type=application/x-yaml'   -F 'format=png' --output W40.png
 ```
+note some of types above are redundant and can be shortened to:
+```
+curl -X 'POST'   'http://35.232.199.151:8080/trainsom'   -F 'input_json=@sample_data/colors_10.json'   -F 'config=@configs/config_40.yml'   -F 'format=png' --output W40_cl.png
+```
+
 
 to login into the github and configure it in gcp shell:
 

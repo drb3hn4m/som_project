@@ -1,0 +1,5 @@
+# config.yml
+som:
+  NetworkShape: [10,10]
+  MaxIter: 500
+  alpha: 0.1
