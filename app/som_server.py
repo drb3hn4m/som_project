@@ -26,4 +26,4 @@ async def train_som(input_json: Annotated[UploadFile, File()],
 
 @app.get("/")
 def hello_page():
-    return "This is the main home page of the som app, to access the app go to http://120.0.0.1:8080/docs"
+    return "this is the main home page of the som app, to access the app go to http://120.0.0.1:8080/docs"
