@@ -16,9 +16,9 @@ on:
 
 env:
   PROJECT_ID: ${{secrets.GKE_PROJECT}}
-  GKE_CLUSTER: som-cl-gha    # Add your cluster name here.
+  GKE_CLUSTER: som-cluster    # Add your cluster name here.
   GKE_ZONE: us-central1-a   # Add your cluster zone here.
-  DEPLOYMENT_NAME: SOM_PROJECT # Add your deployment name here.
+  DEPLOYMENT_NAME: somproject # Add your deployment name here.
   IMAGE: mysomimage
 
 jobs:
