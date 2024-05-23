@@ -1,4 +1,11 @@
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: som-server-configs
+data:
+  MODEL_NAME: som_trainer
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
