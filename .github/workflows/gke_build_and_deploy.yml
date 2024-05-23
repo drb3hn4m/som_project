@@ -20,8 +20,13 @@ jobs:
         service_account_key: ${{ secrets.GKE_SA_KEY }}
         install_components: 'gke-gcloud-auth-plugin'
         export_default_credentials: true
-
+    - uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+      with:
+          cluster_name: som-cluster
+          location: us-central1-a
+  
     - name: build and push the docker image
+
       env:
         GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
       run: |
@@ -29,9 +34,8 @@ jobs:
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/somapp/somimage:latest .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/somapp/somimage:latest
 
-    # - name: deploy to gke
-    #   env:
-    #     GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
-    #   run: |
-    #     gcloud container clusters get-credentials som-cluster --zone us-central1-a
-    #     kubectl apply -f som-k8s-gcp/resources.yaml
+    - name: deploy to gke
+      env:
+        GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
+      run: |
+        kubectl apply -f som-k8s-gcp/resources.yaml
