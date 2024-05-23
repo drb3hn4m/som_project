@@ -28,9 +28,10 @@ jobs:
         gcloud auth configure-docker us-central1-docker.pkg.dev
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/somapp/somimage:latest .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/somapp/somimage:latest
-    - name: deploy to gke
-      env:
-        GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
-      run: |
-        gcloud container clusters get-credentials som-cluster --zone us-central1-a
-        kubectl apply -f som-k8s-gcp/resources.yaml
+
+    # - name: deploy to gke
+    #   env:
+    #     GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
+    #   run: |
+    #     gcloud container clusters get-credentials som-cluster --zone us-central1-a
+    #     kubectl apply -f som-k8s-gcp/resources.yaml
