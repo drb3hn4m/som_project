@@ -1,0 +1,51 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: som-trainer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: som-trainer
+  template:
+    metadata:
+      labels:
+        app: som-trainer
+    spec:
+      containers:
+      - name: som-server
+        image: us-central1-docker.pkg.dev/somproject-422522/somapp/somimage
+        resources:
+          requests:
+            memory: 2Gi
+            cpu: "3"
+        envFrom:
+        - configMapRef:
+            name: som-server-configs
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        - name: grpc
+          containerPort: 8081
+          protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: som-trainer
+  namespace: default
+  labels:
+    app: som-trainer
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: som-trainer-grpc
+  - port: 8081
+    protocol: TCP
+    name: som-trainer-http
+  selector:
+    app: som-trainer
