@@ -1,4 +1,4 @@
-name: Deploy som
+name: Deploy SOM
 
 on:
   push:
