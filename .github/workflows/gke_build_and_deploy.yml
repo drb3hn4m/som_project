@@ -32,5 +32,5 @@ jobs:
       env:
         GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
       run: |
-        gcloud container clusters get-credentials som-cluster --region us-central1
+        gcloud container clusters get-credentials som-cluster 
         kubectl apply -f som-k8s-gcp/resources.yaml
