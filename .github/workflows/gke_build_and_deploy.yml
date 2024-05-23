@@ -18,7 +18,6 @@ jobs:
       with:
         project_id: ${{ secrets.GKE_PROJECT }}
         service_account_key: ${{ secrets.GKE_SA_KEY }}
-        install_components: 'gke-gcloud-auth-plugin'
         export_default_credentials: true
     - uses: 'google-github-actions/get-gke-credentials@v2'
       with:
