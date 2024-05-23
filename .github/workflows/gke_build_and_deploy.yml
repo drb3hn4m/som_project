@@ -20,10 +20,10 @@ jobs:
         service_account_key: ${{ secrets.GKE_SA_KEY }}
         install_components: 'gke-gcloud-auth-plugin'
         export_default_credentials: true
-    - uses: google-github-actions/get-gke-credentials@db150f2cc60d1716e61922b832eae71d2a45938f
+    - uses: 'google-github-actions/get-gke-credentials@v2'
       with:
-          cluster_name: som-cluster
-          location: us-central1-a
+        cluster_name: 'som-cluster'
+        location: 'us-central1-a'
   
     - name: build and push the docker image
 
