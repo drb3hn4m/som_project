@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - id: code checkout
+    - name: code checkout
       uses: actions/checkout@v2
 
-    - id: install the gcloud cli
+    - name: install the gcloud cli
       uses: google-github-actions/setup-gcloud@v0
       with:
         project_id: ${{ secrets.GKE_PROJECT }}
@@ -21,7 +21,7 @@ jobs:
         install_components: 'gke-gcloud-auth-plugin'
         export_default_credentials: true
 
-    - id: build and push the docker image
+    - name: build and push the docker image
       env:
         GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
       run: |
@@ -29,7 +29,7 @@ jobs:
         docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/somapp/somimage:latest .
         docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/somapp/somimage:latest
 
-    # - id: deploy to gke
+    # - name: deploy to gke
     #   env:
     #     GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
     #   run: |
