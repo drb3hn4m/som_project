@@ -6,6 +6,11 @@ on:
     - 'master'
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: som-cluster
+  GKE_ZONE: us-central1-a
+  DEPLOYMENT_NAME: gke-test
+  IMAGE: somimage
+  ARTIFACT_REG_REPO: somapp
 
 jobs:
   deploy:
@@ -18,20 +23,20 @@ jobs:
     - name: install the gcloud cli
       uses: google-github-actions/setup-gcloud@v0
       with:
-        project_id: ${{ secrets.GKE_PROJECT }}
+        project_id: ${{ env.PROJECT_ID }}
         service_account_key: ${{ secrets.GKE_SA_KEY }}
         export_default_credentials: true
     - uses: 'google-github-actions/get-gke-credentials@v2'
       with:
-        cluster_name: 'som-cluster'
-        location: 'us-central1-a'
+        cluster_name: ${{ env.GKE_CLUSTER }}
+        location: ${{ env.GKE_ZONE }}
   
     - name: build and push the docker image
 
       run: |
         gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/somapp/somimage:latest .
-        docker push us-central1-docker.pkg.dev/$PROJECT_ID/somapp/somimage:latest
+        docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest .
+        docker push us-central1-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest
 
     - name: deploy to gke
       run: |
