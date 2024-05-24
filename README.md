@@ -139,3 +139,9 @@ gh auth login
 git config --global user.email "????@gmail.com"
 git config --global user.name "???"
   ```
+---------------------------
+gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/container.admin
+gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/storage.admin
+gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/container.clusterViewer
+gcloud artifacts repositories add-iam-policy-binding som-repo --location australia-southeast1 --member=serviceAccount:$SA_EMAIL --role=roles/artifactregistry.repoAdmin
+gcloud iam service-accounts keys create key.json --iam-account=$SA_EMAIL
