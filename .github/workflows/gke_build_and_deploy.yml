@@ -4,6 +4,8 @@ on:
   push:
     branches:
     - 'master'
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
 
 jobs:
   deploy:
@@ -26,15 +28,11 @@ jobs:
   
     - name: build and push the docker image
 
-      env:
-        GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
       run: |
         gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/$GOOGLE_PROJECT/somapp/somimage:latest .
-        docker push us-central1-docker.pkg.dev/$GOOGLE_PROJECT/somapp/somimage:latest
+        docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/somapp/somimage:latest .
+        docker push us-central1-docker.pkg.dev/$PROJECT_ID/somapp/somimage:latest
 
     - name: deploy to gke
-      env:
-        GOOGLE_PROJECT: ${{ secrets.GKE_PROJECT }}
       run: |
         kubectl apply -f som-k8s-gcp/resources.yaml
