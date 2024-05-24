@@ -7,7 +7,7 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: som-cluster
-  GKE_ZONE: us-central1-a
+  GKE_LOCATION: us-central1
   DEPLOYMENT_NAME: gke-test
   IMAGE: somimage
   ARTIFACT_REG_REPO: somapp
@@ -29,7 +29,7 @@ jobs:
     - uses: 'google-github-actions/get-gke-credentials@v2'
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_ZONE }}
+        location: ${{ env.GKE_LOCATION }}
   
     - name: build and push the docker image
 
