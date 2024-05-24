@@ -7,11 +7,11 @@ on:
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: som-cluster
-  GKE_LOCATION: us-central1
+  GKE_LOCATION: us-central1-a
   DEPLOYMENT_NAME: gke-test
   IMAGE: somimage
   ARTIFACT_REG_REPO: somapp
-
+  ARTIFACT_REG_LOCATION: us-central2
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,9 +34,9 @@ jobs:
     - name: build and push the docker image
 
       run: |
-        gcloud auth configure-docker us-central1-docker.pkg.dev
-        docker build -t us-central1-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest .
-        docker push us-central1-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest
+        gcloud auth configure-docker us-central2-docker.pkg.dev
+        docker build -t us-central2-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest .
+        docker push us-central2-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest
 
     - name: deploy to gke
       run: |
