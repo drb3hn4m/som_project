@@ -11,7 +11,8 @@ env:
   DEPLOYMENT_NAME: gke-test
   IMAGE: somimage
   ARTIFACT_REG_REPO: somapp
-  ARTIFACT_REG_LOCATION: us-central2
+  ARTIFACT_REG_LOCATION: australia-southeast1
+  
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,9 +35,9 @@ jobs:
     - name: build and push the docker image
 
       run: |
-        gcloud auth configure-docker us-central2-docker.pkg.dev
-        docker build -t us-central2-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest .
-        docker push us-central2-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest
+        gcloud auth configure-docker $ARTIFACT_REG_LOCATION-docker.pkg.dev
+        docker build -t  $ARTIFACT_REG_LOCATION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest .
+        docker push $ARTIFACT_REG_LOCATION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest
 
     - name: deploy to gke
       run: |
