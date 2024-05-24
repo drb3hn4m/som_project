@@ -10,7 +10,7 @@ env:
   GKE_LOCATION: us-central1-a
   DEPLOYMENT_NAME: gke-test
   IMAGE: somimage
-  ARTIFACT_REG_REPO: somapp
+  ARTIFACT_REG_REPO: som-repo
   ARTIFACT_REG_LOCATION: australia-southeast1
   
 jobs:
