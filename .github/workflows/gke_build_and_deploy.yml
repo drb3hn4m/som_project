@@ -41,8 +41,5 @@ jobs:
 
     - name: deploy to gke
       run: |
-        sed -i "s/ARTIFACT_REG_LOCATION/$ARTIFACT_RGE_LOCATION/g" som-k8s-gcp/resources.yaml
-        sed -i "s/PROJECT_ID/$PROJECT_ID/g" som-k8s-gcp/resources.yaml
-        sed -i "s/ARTIFACT_REG_REPO/$ARTIFACT_REG_REPO/g" som-k8s-gcp/resources.yaml
-        sed -i "s/IMAGE/$IMAGE/g" som-k8s-gcp/resources.yaml
+
         kubectl apply -f som-k8s-gcp/resources.yaml

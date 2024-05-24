@@ -22,7 +22,8 @@ spec:
     spec:
       containers:
       - name: som-server
-        image: ARTIFACT_REG_LOCATION-docker.pkg.dev/PROJECT_ID/ARTIFACT_REG_REPO/IMAGE
+        # image: ARTIFACT_REG_LOCATION-docker.pkg.dev/PROJECT_ID/ARTIFACT_REG_REPO/IMAGE
+        image: australia-southeast1-docker.pkg.dev/somproject-422522/som-repo/somimage
         resources:
           requests:
             memory: 2Gi
