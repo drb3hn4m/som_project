@@ -10,7 +10,7 @@ env:
   GKE_LOCATION: us-central1-a
   DEPLOYMENT_NAME: gke-test
   ARTIFACT_REG_REPO: som-repo
-  IMAGE: somimage
+  IMAGE: export 
   ARTIFACT_REG_LOCATION: australia-southeast1
   
 jobs:
@@ -36,10 +36,10 @@ jobs:
 
       run: |
         gcloud auth configure-docker $ARTIFACT_REG_LOCATION-docker.pkg.dev
-        docker build -t  $ARTIFACT_REG_LOCATION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest .
+        docker build -t $ARTIFACT_REG_LOCATION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest .
         docker push $ARTIFACT_REG_LOCATION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest
 
     - name: deploy to gke
       run: |
-
+        sed -e "s/ARTIFACT_REG_LOCATION/$ARTIFACT_REG_LOCATION/g" -e "s/PROJECT_ID/$PROJECT_ID/g" -e "s/ARTIFACT_REG_REPO/$ARTIFACT_REG_REPO/g" -e "s/IMAGE/$IMAGE/g" som-k8s-gcp/resources.yaml 
         kubectl apply -f som-k8s-gcp/resources.yaml
