@@ -151,3 +151,6 @@ kubectl delete deployment --all --namespace=default
 
 
 note that Github actions have a security feature that replaces strings that are also used as a secret. So if some log output just by accident contains the same string as used as a secret elsewhere it does get replaced with ***.
+
+to print out the deployment pod manifest use:
+kubectl get pods {pod name} -o yaml

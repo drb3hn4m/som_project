@@ -5,14 +5,14 @@ on:
     branches:
     - 'master'
 env:
+  DEPLOYMENT_NAME: gke-test
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: som-cluster
   GKE_LOCATION: us-central1-a
-  DEPLOYMENT_NAME: gke-test
+  ARTIFACT_REG_LOCATION: australia-southeast1
   ARTIFACT_REG_REPO: som-repo
   IMAGE: somimage 
-  ARTIFACT_REG_LOCATION: australia-southeast1
-  
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -42,5 +42,5 @@ jobs:
 
     - name: deploy to gke
       run: |
-        sed -e "s/ARTIFACT_REG_LOCATION/$ARTIFACT_REG_LOCATION/g" -e "s/PROJECT_ID/$PROJECT_ID/g" -e "s/ARTIFACT_REG_REPO/$ARTIFACT_REG_REPO/g" -e "s/IMAGE/$IMAGE/g" som-k8s-gcp/resources.yaml 
+        sed -i -e "s/ARTIFACT_REG_LOCATION/$ARTIFACT_REG_LOCATION/g" -e "s/PROJECT_ID/$PROJECT_ID/g" -e "s/ARTIFACT_REG_REPO/$ARTIFACT_REG_REPO/g" -e "s/IMAGE/$IMAGE/g" som-k8s-gcp/resources.yaml 
         kubectl apply -f som-k8s-gcp/resources.yaml
