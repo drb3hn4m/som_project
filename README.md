@@ -148,3 +148,6 @@ gcloud iam service-accounts keys create key.json --iam-account=$SA_EMAIL
 
 delete the resources by:
 kubectl delete deployment --all --namespace=default
+
+
+note that Github actions have a security feature that replaces strings that are also used as a secret. So if some log output just by accident contains the same string as used as a secret elsewhere it does get replaced with ***.
