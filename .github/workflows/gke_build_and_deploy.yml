@@ -10,7 +10,7 @@ env:
   GKE_LOCATION: us-central1-a
   DEPLOYMENT_NAME: gke-test
   ARTIFACT_REG_REPO: som-repo
-  IMAGE: export 
+  IMAGE: somimage 
   ARTIFACT_REG_LOCATION: australia-southeast1
   
 jobs:
@@ -35,6 +35,7 @@ jobs:
     - name: build and push the docker image
 
       run: |
+        echo $ARTIFACT_REG_LOCATION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest
         gcloud auth configure-docker $ARTIFACT_REG_LOCATION-docker.pkg.dev
         docker build -t $ARTIFACT_REG_LOCATION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest .
         docker push $ARTIFACT_REG_LOCATION-docker.pkg.dev/$PROJECT_ID/$ARTIFACT_REG_REPO/$IMAGE:latest
