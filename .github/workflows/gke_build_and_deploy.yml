@@ -7,10 +7,10 @@ on:
 env:
   DEPLOYMENT_NAME: gke-test
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: som-cluster
-  GKE_LOCATION: us-central1-a
+  GKE_CLUSTER: cluster-som
+  GKE_LOCATION: us-central1-b
   ARTIFACT_REG_LOCATION: australia-southeast1
-  ARTIFACT_REG_REPO: som-repo
+  ARTIFACT_REG_REPO: som-art-repo
   IMAGE: somimage 
 
 jobs:
