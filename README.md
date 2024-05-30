@@ -154,3 +154,47 @@ note that Github actions have a security feature that replaces strings that are 
 
 to print out the deployment pod manifest use:
 kubectl get pods {pod name} -o yaml
+
+-----------------------
+export GKE_PROJECT=som-k8s
+export SA_NAME=som-k8s-sa
+export GKE_CLUSTER=cluster-som
+export GKE_ZONE=us-central1-b
+export ARTIFACT_REG_LOCATION=australia-southeast1
+export ARTIFACT_REG_REPO=som-art-repo
+EXPORT IMAGE=somimage 
+
+
+gcloud projects create som-k8s
+gcloud projects list
+gcloud config project set som-k8s
+gcloud auth login
+gcloud beta billing accounts list
+gcloud beta billing projects link som-k8s --billing-account=017A1C-DFF6F5-28CCFF
+gcloud services enable container.googleapis.com artifactregistry.googleapis.com
+
+
+gcloud artifacts repositories create $ARTIFACT_REG_REPO \
+      --repository-format=docker \
+      --location=$ARTIFACT_REG_LOCATION \
+      --description="som server container" 
+ 
+gcloud beta container clusters create $GKE_CLUSTER \
+  --zone=$GKE_ZONE \
+  --project=$GKE_PROJECT \
+  --cluster-version=latest \
+  --machine-type=e2-standard-4 \
+  --enable-autoscaling \
+  --min-nodes=1 \
+  --max-nodes=3 \
+  --num-nodes=1 
+
+gcloud iam service-accounts create $SA_NAME
+SA_EMAIL=$(gcloud iam service-accounts list --format="value(email)" | head -n 1)
+
+
+gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/container.admin
+gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/container.clusterViewer
+gcloud artifacts repositories add-iam-policy-binding $ARTIFACT_REG_REPO --location $ARTIFACT_REG_LOCATION --member=serviceAccount:$SA_EMAIL --role=roles/artifactregistry.repoAdmin
+
+gcloud iam service-accounts keys create key.json --iam-account=$SA_EMAIL
