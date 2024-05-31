@@ -1,4 +1,4 @@
-name: Deploy SOM
+name: Deploy SOM with k8s
 
 on:
   push:
@@ -8,7 +8,7 @@ env:
   DEPLOYMENT_NAME: gke-test
   PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
   GKE_CLUSTER: cluster-som
-  GKE_OZNE: us-central1-b
+  GKE_ZONE: us-central1-b
   ARTIFACT_REG_LOCATION: australia-southeast1
   ARTIFACT_REG_REPO: som-art-repo
   IMAGE: somimage 
@@ -30,7 +30,7 @@ jobs:
     - uses: 'google-github-actions/get-gke-credentials@v2'
       with:
         cluster_name: ${{ env.GKE_CLUSTER }}
-        location: ${{ env.GKE_OZNE }}
+        location: ${{ env.GKE_ZONE }}
   
     - name: build and push the docker image
 
