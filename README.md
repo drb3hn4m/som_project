@@ -140,9 +140,9 @@ git config --global user.email "????@gmail.com"
 git config --global user.name "???"
   ```
 ---------------------------
-gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/container.admin
-gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/storage.admin
-gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/container.clusterViewer
+gcloud projects add-iam-policy-binding $GKE_PROJECT_ID --member=serviceAccount:$SA_EMAIL --role=roles/container.admin
+gcloud projects add-iam-policy-binding $GKE_PROJECT_ID --member=serviceAccount:$SA_EMAIL --role=roles/storage.admin
+gcloud projects add-iam-policy-binding $GKE_PROJECT_ID --member=serviceAccount:$SA_EMAIL --role=roles/container.clusterViewer
 gcloud artifacts repositories add-iam-policy-binding som-repo --location australia-southeast1 --member=serviceAccount:$SA_EMAIL --role=roles/artifactregistry.repoAdmin
 gcloud iam service-accounts keys create key.json --iam-account=$SA_EMAIL
 
@@ -156,7 +156,7 @@ to print out the deployment pod manifest use:
 kubectl get pods {pod name} -o yaml
 
 -----------------------
-export GKE_PROJECT=som-k8s
+export GKE_PROJECT_ID=som-k8s
 export SA_NAME=som-k8s-sa
 export GKE_CLUSTER=cluster-som
 export GKE_ZONE=us-central1-b
@@ -181,7 +181,7 @@ gcloud artifacts repositories create $ARTIFACT_REG_REPO \
  
 gcloud beta container clusters create $GKE_CLUSTER \
   --zone=$GKE_ZONE \
-  --project=$GKE_PROJECT \
+  --project=$GKE_PROJECT_ID \
   --cluster-version=latest \
   --machine-type=e2-standard-4 \
   --enable-autoscaling \
@@ -193,8 +193,16 @@ gcloud iam service-accounts create $SA_NAME
 SA_EMAIL=$(gcloud iam service-accounts list --format="value(email)" | head -n 1)
 
 
-gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/container.admin
-gcloud projects add-iam-policy-binding $GKE_PROJECT --member=serviceAccount:$SA_EMAIL --role=roles/container.clusterViewer
+gcloud projects add-iam-policy-binding $GKE_PROJECT_ID --member=serviceAccount:$SA_EMAIL --role=roles/container.admin
+gcloud projects add-iam-policy-binding $GKE_PROJECT_ID --member=serviceAccount:$SA_EMAIL --role=roles/container.clusterViewer
 gcloud artifacts repositories add-iam-policy-binding $ARTIFACT_REG_REPO --location $ARTIFACT_REG_LOCATION --member=serviceAccount:$SA_EMAIL --role=roles/artifactregistry.repoAdmin
 
 gcloud iam service-accounts keys create key.json --iam-account=$SA_EMAIL
+
+kubectl get pods
+kubectl get svc 
+
+curl -X 'POST'   'http://external_ip:8080/trainsom'   -F 'input_json=@sample_data/colors_10.json'   -F 'config=
+@configs/config_40.yml'   -F 'format=png' --output W40_cl.png
+
+kubectl delete deployment --all --namespace=default
