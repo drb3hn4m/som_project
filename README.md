@@ -131,7 +131,7 @@ note some of types above are redundant and can be shortened to:
 curl -X 'POST'   'http://35.232.199.151:8080/trainsom'   -F 'input_json=@sample_data/colors_10.json'   -F 'config=@configs/config_40.yml'   -F 'format=png' --output W40_cl.png
 ```
 -----------------------
-## Automating the deployment of SOM to Google Kubernetes Engine using GitHub Actions for CI/CD
+## Automating the deployment of SOM to Google Kubernetes Engine using GitHub Actions for CI/CD ON GCP
 Open a google cloud shell terminal and follow the steps.
 1) first set environment variables:
 ```
@@ -148,7 +148,7 @@ Note that the project name is sometimes different from the project ID, so make s
 ```
 gcloud projects create $GKE_PROJECT_NAME
 GKE_PROJECT_ID=$(gcloud projects list --format="value(PROJECT_ID)" --filter="name:$GKE_PROJECT_NAME")
-gcloud config project set $GKE_PROJECT_ID
+gcloud config set project $GKE_PROJECT_ID
 ```
 Note you could do all this manually by `gcloud projects list` ans find the assigned project id.
 
