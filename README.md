@@ -16,6 +16,8 @@ Each node has a set of weights that match the size of the input vector.  For exa
 
 ### Notebook
 The kohonen notebook includes the details of the SOM algorithm along with the implementation by calling the classes from the modules dir.
+You can find the main class implementation of SOM in 'app/modules' dir
+TBD: the load testing with locust library is not working yet
 
 ### python main function
 you can run the training via the main app along the required arguments:

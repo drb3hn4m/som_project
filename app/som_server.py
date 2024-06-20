@@ -7,6 +7,7 @@ from typing import Annotated
 from modules.SelfOrganizingMap import SelfOrganizingMap as som
 from modules.server_io_utils import *
 
+# using fast api utilities as for web page server
 app = FastAPI(title = 'Deploying the SOM model via FastAPI',debug=True)
 @app.post("/trainsom")
 async def train_som(input_json: Annotated[UploadFile, File()],
