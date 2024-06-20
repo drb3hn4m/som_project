@@ -240,7 +240,7 @@ curl -X 'POST'   'http://external_ip:8080/trainsom'   -F 'input_json=@sample_dat
 @configs/config_40.yml'   -F 'format=png' --output W40_cl.png
 ```
 
-### Some Notes
+### Some general Notes about GCP
 
 - to login into the github and configure it in gcp shell:
 
